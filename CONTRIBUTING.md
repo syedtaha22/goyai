@@ -9,6 +9,7 @@ Thanks for helping out. The project is still early, so these guidelines are shor
    - `fix/<short-name>` for bug fixes
    - `docs/<short-name>` for documentation
    - `research/<short-name>` for corpus, evaluation, or study materials
+   - `experiment/<short-name>` for experimental code that may not be merged
 2. Keep each pull request focused on one change.
 3. Open a pull request into `main`. At least one other team member should review it before it is merged.
 
