@@ -1,0 +1,79 @@
+# --- Research data (never commit) ---
+# Participant data, session logs, recordings, consent forms
+data/participants/
+data/sessions/
+data/raw/
+recordings/
+consent/
+*.sav
+*.consent.*
+
+# --- Secrets / environment ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# --- Models and large artifacts ---
+models/
+checkpoints/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.onnx
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --- Node / JS ---
+node_modules/
+dist/
+build/
+.expo/
+.next/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Mobile / Flutter / Android / iOS ---
+.dart_tool/
+.flutter-plugins*
+*.apk
+*.aab
+*.ipa
+.gradle/
+local.properties
+Pods/
+DerivedData/
+
+# --- LaTeX build files ---
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
