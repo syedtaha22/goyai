@@ -1,0 +1,24 @@
+[project]
+name = "goyai-backend"
+version = "0.1.0"
+description = "Gaze estimation backend for the Goyai eye-tracking experiment"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "numpy>=1.26",
+    "opencv-python-headless>=4.9,<5",
+]
+
+[project.optional-dependencies]
+# Training and model inference. Installed once the GPU driver is working.
+ml = [
+    "torch>=2.4",
+    "torchvision>=0.19",
+    "pillow>=10",
+    "scipy>=1.11",
+    "tqdm>=4.66",
+]
+
+[tool.setuptools]
+packages = ["app"]

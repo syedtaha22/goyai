@@ -25,6 +25,9 @@ checkpoints/
 *.pt
 *.onnx
 
+# --- Third-party clones (separate licence, not part of this repo) ---
+third_party/
+
 # --- Python ---
 __pycache__/
 *.py[cod]

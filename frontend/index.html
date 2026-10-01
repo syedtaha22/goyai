@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Goyai gaze experiment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="stage">
+    <video id="preview" autoplay playsinline muted></video>
+    <canvas id="overlay" width="640" height="480"></canvas>
+  </div>
+  <div id="dot" hidden></div>
+  <div id="hud">
+    <div>status: <span id="status">starting</span></div>
+    <div>fps: <span id="fps">0</span></div>
+    <div>latency: <span id="latency">0</span> ms</div>
+  </div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
