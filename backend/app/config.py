@@ -24,6 +24,12 @@ class Settings(BaseSettings):
     # How long Ollama keeps the model resident after the last request.
     keep_alive: str = "30m"
 
+    # Sampling temperatures: a first request is conservative, "different" is more varied.
+    temperature: float = 0.3
+    temperature_different: float = 0.8
+    # Total seconds a request may spend on the model, retries included, before the fallback answers.
+    llm_budget: float = 8.0
+
     # Context window and generation cap. Both stay small to bound latency.
     num_ctx: int = 4096
     num_predict: int = 512

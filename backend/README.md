@@ -21,7 +21,8 @@ curl localhost:8000/healthz
 ```
 
 `/healthz` reports `"status": "ok"` when Ollama is reachable and the configured model is pulled,
-and `"degraded"` otherwise.
+and `"degraded"` otherwise. `model_loaded` is `true` once the model has been loaded into memory,
+which happens in the background after startup.
 
 ## API
 
@@ -54,12 +55,30 @@ Response fields:
 
 Unknown tile IDs, and invalid request fields, return 422.
 
+## How suggestions are produced
+
+1. The selected tiles are looked up in the tile bank.
+2. The model receives a system prompt, the four curated examples that overlap the selection most
+   (as earlier conversation turns), and the selected tiles with their Urdu and English labels.
+   The prompt texts are the markdown files in [data/prompts/](data/prompts/), where
+   `{{NAME}}` marks the parts the code fills in.
+   The speaker's gender, when given, selects the verb forms. For `mode: "different"` the
+   sentences already shown are included and the sampling temperature is higher.
+3. The response is cleaned: candidates that contain notes, brackets, hidden characters, too
+   little Urdu script or a non-English translation are dropped, as are repeats and anything in
+   `exclude`. Sentence-final punctuation is normalized, and a candidate containing Latin letters
+   is marked `code_mixed`.
+4. If the first attempt gives nothing usable, the request is retried once.
+5. If the model is not loaded, errors out, or exceeds `GOYAI_LLM_BUDGET`, the curated example
+   bank answers and `source` is `fallback`.
+
 ## Data
 
 [data/tiles.json](data/tiles.json) holds the tile bank. Each tile has a stable `tile_id`
 (`<category>_<english>`), a category, Urdu and English labels, and an `arasaac_id` that is
 `null` until the pictogram is matched. [data/examples.json](data/examples.json) holds curated
-tile selections with reference sentences, used when the language model is unavailable.
+tile selections with reference sentences, used as few-shot examples in the prompt and as the
+fallback when the language model is unavailable.
 
 ## Configuration
 
@@ -73,6 +92,9 @@ Settings are read from environment variables prefixed with `GOYAI_`, or from a l
 | `GOYAI_OLLAMA_URL` | `http://localhost:11434` | Ollama server |
 | `GOYAI_REQUEST_TIMEOUT` | `20` | Seconds per model request |
 | `GOYAI_KEEP_ALIVE` | `30m` | How long the model stays loaded |
+| `GOYAI_TEMPERATURE` | `0.3` | Sampling temperature for a first request |
+| `GOYAI_TEMPERATURE_DIFFERENT` | `0.8` | Sampling temperature for `mode: "different"` |
+| `GOYAI_LLM_BUDGET` | `8` | Seconds a request may spend on the model before the fallback answers |
 | `GOYAI_LOG_LEVEL` | `INFO` | Log verbosity |
 | `GOYAI_CORS_ORIGINS` | `["http://localhost:3000"]` | Allowed browser origins |
 

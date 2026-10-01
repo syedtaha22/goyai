@@ -1,37 +1,10 @@
 import time
-from typing import Any
 
 from fastapi.testclient import TestClient
 
 from app.config import Settings
-from app.llm.base import LLMError
 from app.main import create_app
-
-
-class FakeLLM:
-    def __init__(self, ready: bool = True, warmup_fails: bool = False) -> None:
-        self._ready = ready
-        self._warmup_fails = warmup_fails
-        self.warmed = False
-        self.closed = False
-
-    @property
-    def model(self) -> str:
-        return "fake-model"
-
-    async def generate(self, messages: list[dict[str, str]], schema: dict[str, Any], **kw: Any):
-        return {}
-
-    async def warmup(self) -> None:
-        if self._warmup_fails:
-            raise LLMError("no server")
-        self.warmed = True
-
-    async def is_ready(self) -> bool:
-        return self._ready
-
-    async def aclose(self) -> None:
-        self.closed = True
+from tests.fakes import FakeLLM
 
 
 def test_healthz_ok_and_warmup_runs():
@@ -42,8 +15,25 @@ def test_healthz_ok_and_warmup_runs():
             if llm.warmed:
                 break
             time.sleep(0.02)
-    assert body == {"status": "ok", "model": "fake-model", "model_available": True}
+    assert body["status"] == "ok"
+    assert body["model"] == "fake-model"
+    assert body["model_available"] is True
     assert llm.warmed and llm.closed
+
+
+def test_healthz_reports_model_loaded():
+    with TestClient(create_app(Settings(), FakeLLM())) as http:
+        for _ in range(50):
+            if http.get("/healthz").json()["model_loaded"]:
+                break
+            time.sleep(0.02)
+        assert http.get("/healthz").json()["model_loaded"] is True
+
+
+def test_healthz_not_loaded_when_warmup_fails():
+    with TestClient(create_app(Settings(), FakeLLM(warmup_fails=True))) as http:
+        time.sleep(0.1)
+        assert http.get("/healthz").json()["model_loaded"] is False
 
 
 def test_healthz_degraded_when_model_missing():

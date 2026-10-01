@@ -4,9 +4,8 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from app.schemas import Candidate
+from app.textutil import URDU_FULL_STOP
 from app.tiles import Tile
-
-URDU_FULL_STOP = "\u06d4"
 
 # Minimum overlap between the selected tiles and an example's tiles for the example to apply.
 MIN_JACCARD = 0.5
@@ -36,6 +35,10 @@ class ExampleBank:
         """
         records = json.loads(path.read_text(encoding="utf-8"))
         return cls([Example(**r) for r in records])
+
+    @property
+    def examples(self) -> list[Example]:
+        return list(self._examples)
 
     def __len__(self) -> int:
         return len(self._examples)

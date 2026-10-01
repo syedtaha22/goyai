@@ -4,7 +4,7 @@ from app.config import Settings
 from app.fallback import ExampleBank
 from app.main import create_app
 from app.tiles import TileBank
-from tests.test_health import FakeLLM
+from tests.fakes import FakeLLM
 
 
 def make_http() -> TestClient:
@@ -16,7 +16,7 @@ def test_every_example_references_known_tiles():
     bank = TileBank.load(settings.data_dir / "tiles.json")
     examples = ExampleBank.load(settings.data_dir / "examples.json")
     assert len(examples) > 0
-    for example in examples._examples:
+    for example in examples.examples:
         bank.resolve(example.tiles)
 
 
