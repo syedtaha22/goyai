@@ -1,4 +1,5 @@
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -28,6 +29,9 @@ class Settings(BaseSettings):
     num_predict: int = 512
 
     log_level: str = "INFO"
+
+    # Folder holding tiles.json and examples.json.
+    data_dir: Path = Path(__file__).resolve().parent.parent / "data"
 
     # Origins allowed to call the API from a browser (the Next.js dev server by default).
     cors_origins: list[str] = ["http://localhost:3000"]

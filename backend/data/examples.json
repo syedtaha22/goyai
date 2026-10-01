@@ -1,0 +1,29 @@
+[
+  {"tiles": ["person_i_me", "feeling_hungry"],
+   "candidates": [{"urdu": "مجھے بھوک لگی ہے۔", "english": "I am hungry.", "style": "urdu"}]},
+  {"tiles": ["person_i_me", "action_want", "food_water"],
+   "candidates": [{"urdu": "مجھے پانی چاہیے۔", "english": "I want water.", "style": "urdu"}]},
+  {"tiles": ["person_i_me", "feeling_pain", "body_head"],
+   "candidates": [{"urdu": "میرے سر میں درد ہے۔", "english": "My head hurts.", "style": "urdu"}]},
+  {"tiles": ["person_i_me", "action_want", "action_go", "place_home"],
+   "candidates": [{"urdu": "مجھے گھر جانا ہے۔", "english": "I want to go home.", "style": "urdu"}]},
+  {"tiles": ["person_i_me", "feeling_tired", "action_sleep"],
+   "candidates": [
+     {"urdu": "مجھے نیند آ رہی ہے۔", "english": "I am sleepy.", "style": "urdu"},
+     {"urdu": "میں سونا چاہتا ہوں۔", "english": "I want to sleep.", "style": "urdu"}]},
+  {"tiles": ["social_help"],
+   "candidates": [{"urdu": "میری مدد کریں۔", "english": "Please help me.", "style": "urdu"}]},
+  {"tiles": ["place_bathroom"],
+   "candidates": [
+     {"urdu": "مجھے واش روم جانا ہے۔", "english": "I need to go to the bathroom.", "style": "urdu"},
+     {"urdu": "مجھے washroom جانا ہے۔", "english": "I need to go to the bathroom.", "style": "code_mixed"}]},
+  {"tiles": ["person_mom", "social_where"],
+   "candidates": [{"urdu": "امی کہاں ہیں؟", "english": "Where is Mom?", "style": "urdu"}]},
+  {"tiles": ["person_i_me", "action_want", "food_donut"],
+   "candidates": [
+     {"urdu": "مجھے ڈونٹ چاہیے۔", "english": "I want a donut.", "style": "urdu"},
+     {"urdu": "میں ڈونٹ کھانا چاہتا ہوں۔", "english": "I want to eat a donut.", "style": "urdu"},
+     {"urdu": "مجھے اور ڈونٹ چاہیے۔", "english": "I want more donuts.", "style": "urdu"}]},
+  {"tiles": ["feeling_more", "food_water"],
+   "candidates": [{"urdu": "مجھے اور پانی چاہیے۔", "english": "I want more water.", "style": "urdu"}]}
+]

@@ -23,6 +23,44 @@ curl localhost:8000/healthz
 `/healthz` reports `"status": "ok"` when Ollama is reachable and the configured model is pulled,
 and `"degraded"` otherwise.
 
+## API
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /healthz` | Model server status |
+| `GET /v1/tiles` | The tile bank (204 tiles) |
+| `POST /v1/suggest` | Candidate sentences for a tile selection |
+
+```bash
+curl -s localhost:8000/v1/suggest -H 'Content-Type: application/json' \
+  -d '{"tiles": ["person_i_me", "action_want", "food_water"]}'
+```
+
+`POST /v1/suggest` request fields:
+
+- `tiles`: 1 to 6 tile IDs, in selection order.
+- `profile`: optional. `gender` selects gendered Urdu forms, and `custom_labels` supplies
+  labels for personalization tiles.
+- `exclude`: Urdu sentences already shown, which are not returned again.
+- `n`: number of candidates, 1 to 5. Default 3.
+- `mode`: `default`, or `different` to ask for more varied candidates.
+
+Response fields:
+
+- `candidates`: ranked list, each with `urdu`, `english` and `style` (`urdu` or `code_mixed`).
+- `source`: `llm` or `fallback`.
+- `model`: model name when `source` is `llm`, otherwise `null`.
+- `latency_ms`: time taken to produce the candidates.
+
+Unknown tile IDs, and invalid request fields, return 422.
+
+## Data
+
+[data/tiles.json](data/tiles.json) holds the tile bank. Each tile has a stable `tile_id`
+(`<category>_<english>`), a category, Urdu and English labels, and an `arasaac_id` that is
+`null` until the pictogram is matched. [data/examples.json](data/examples.json) holds curated
+tile selections with reference sentences, used when the language model is unavailable.
+
 ## Configuration
 
 Settings are read from environment variables prefixed with `GOYAI_`, or from a local `.env` file

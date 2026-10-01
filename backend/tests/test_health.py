@@ -1,3 +1,4 @@
+import time
 from typing import Any
 
 from fastapi.testclient import TestClient
@@ -37,6 +38,10 @@ def test_healthz_ok_and_warmup_runs():
     llm = FakeLLM()
     with TestClient(create_app(Settings(), llm)) as http:
         body = http.get("/healthz").json()
+        for _ in range(50):
+            if llm.warmed:
+                break
+            time.sleep(0.02)
     assert body == {"status": "ok", "model": "fake-model", "model_available": True}
     assert llm.warmed and llm.closed
 
