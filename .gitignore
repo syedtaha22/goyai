@@ -77,3 +77,7 @@ Thumbs.db
 .idea/
 *.swp
 *~
+
+
+# --- Documents
+docs/
