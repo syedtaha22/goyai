@@ -80,6 +80,58 @@ Unknown tile IDs, and invalid request fields, return 422.
 tile selections with reference sentences, used as few-shot examples in the prompt and as the
 fallback when the language model is unavailable.
 
+## Evaluation
+
+[evaluation/cases.jsonl](evaluation/cases.jsonl) holds the evaluation cases. Each case has a tile
+selection, one or more acceptable Urdu sentences (`references`), an English gloss, and an
+optional speaker gender. The `urdu` cases use monolingual Urdu. The `code_mixed` cases use Urdu with 
+English words, and give the English words in Latin script in the first reference and in Urdu script 
+in the others. No case reuses the tile selection of a curated example in [data/examples.json](data/examples.json).
+
+Run the pipeline for one or more models, from `backend/`:
+
+```bash
+python -m evaluation.run --models qwen3.5:4b gemma3:4b --run-id my-run
+```
+
+Options: `--limit N` runs the first N cases, `--seed` sets the sampling seed (default 0),
+`--budget` sets the seconds allowed per request (default 30, so slow models are compared on
+quality). Results go to `evaluation/results/<run id>/`, which is git-ignored:
+
+- `<model>.jsonl`: the candidates and latency for each case.
+- `<model>.meta.json`: model, seed, temperature, token limits, a hash of the cases file and of
+  the prompt files, the Ollama version, the git commit, and the date.
+- `summary.md` and `summary.json`: the automatic metrics, for all cases and for each split.
+- `ratings.csv` and `ratings_key.csv`: the rating sheet and its key (see below).
+
+`python -m evaluation.report <run folder>` rebuilds the summary and rating sheet from the
+results. With `--sample N` the rating sheet covers a seeded sample of N cases, drawn in
+proportion from each split, while the summary still covers every case.
+
+Automatic metrics, as fractions of all cases:
+
+- `usable`: the model returned at least one candidate that passed cleaning.
+- `exact@k`: a reference sentence appears among the top k candidates, ignoring case, spacing and
+  punctuation. This is a lower bound, because a correct sentence that is not listed as a
+  reference does not count. Whether a sentence is correct is judged by the ratings.
+- `code-mixed offered`: at least one candidate is marked `code_mixed`.
+- `candidates`: mean number of candidates for usable responses.
+- `p50 ms` and `p95 ms`: latency percentiles.
+
+A response that falls back to the curated examples counts as a miss for every metric.
+
+Rating sheet: `ratings.csv` lists each distinct sentence once, in shuffled order, with the model
+names hidden. It contains the top three candidates of every model and one reference sentence per
+case as a control. Raters fill in `meaning_ok` (1 or 0), `fluency_1to5`, `gender_ok` (1, 0 or
+`NA`), `code_mix_natural_1to5` (code-mixed cases only) and `notes`. `ratings_key.csv` maps each
+row to the models and ranks that produced it. Then:
+
+```bash
+python -m evaluation.score_ratings <run folder>
+```
+
+prints the mean ratings per model, with the references as the `reference` row.
+
 ## Configuration
 
 Settings are read from environment variables prefixed with `GOYAI_`, or from a local `.env` file

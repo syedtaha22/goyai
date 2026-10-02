@@ -26,12 +26,12 @@ def test_label_is_trimmed():
         "\t",
         "x\ny",
         "x\ty",
-        "‮علی‬",
-        "‏علی",
-        "‎Ali",
-        "⁧علی⁩",
-        "ع​لی",
-        "﻿علی",
+        "\u202eعلی\u202c",
+        "\u200fعلی",
+        "\u200eAli",
+        "\u2067علی\u2069",
+        "ع\u200bلی",
+        "\ufeffعلی",
         "ا" * 61,
     ],
 )
@@ -43,7 +43,7 @@ def test_label_rejects_bad_text(bad):
 
 
 def test_label_allows_zero_width_non_joiner():
-    assert Label(urdu="ہوں‌گے", english="x").urdu == "ہوں‌گے"
+    assert Label(urdu="ہوں\u200cگے", english="x").urdu == "ہوں\u200cگے"
 
 
 def test_label_allows_latin_and_boundary_length():
@@ -57,7 +57,7 @@ def test_exclude_item_length_is_capped():
         SuggestRequest(tiles=["person_i_me"], exclude=["ا" * 201])
 
 
-@pytest.mark.parametrize("bad", ["   ", "x\ny", "‮علی‬"])
+@pytest.mark.parametrize("bad", ["   ", "x\ny", "\u202eعلی\u202c"])
 def test_api_rejects_bad_label(bad):
     with make_http() as http:
         assert http.post("/v1/suggest", json=label_request(bad)).status_code == 422

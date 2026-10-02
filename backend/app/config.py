@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     # Total seconds a request may spend on the model, retries included, before the fallback answers.
     llm_budget: float = 8.0
 
+    # Fixed sampling seed for reproducible runs. Left unset, sampling is random.
+    seed: int | None = None
+
     # Context window and generation cap. Both stay small to bound latency.
     num_ctx: int = 4096
     num_predict: int = 512

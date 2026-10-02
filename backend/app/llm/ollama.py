@@ -41,6 +41,8 @@ class OllamaClient:
                 "num_predict": s.num_predict,
             },
         }
+        if s.seed is not None:
+            payload["options"]["seed"] = s.seed
         try:
             resp = await self._http.post("/api/chat", json=payload, timeout=s.request_timeout)
             resp.raise_for_status()

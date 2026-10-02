@@ -15,7 +15,7 @@ MAX_ENGLISH_CHARS = 160
 
 # Characters that signal leaked notes, markup or formatting rather than a sentence.
 _LEAK_CHARS = set("()[]{}<>:*#`_|\\")
-_SENTENCE_END = ".!?۔؟"
+_SENTENCE_END = ".!?" + URDU_FULL_STOP + URDU_QUESTION_MARK
 
 
 def _clean_urdu(text: str) -> str | None:

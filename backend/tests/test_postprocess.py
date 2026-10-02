@@ -39,8 +39,8 @@ def test_ascii_punctuation_is_normalized():
         "   ",
         URDU_FULL_STOP,
         WATER + "\n" + HOME,
-        "‮" + WATER,
-        "مجھے​پانی",
+        "\u202e" + WATER,
+        "مجھے\u200bپانی",
         "ا" * (MAX_URDU_CHARS + 1),
     ],
 )
@@ -54,8 +54,8 @@ def test_rejects_bad_english(bad_english):
 
 
 def test_zero_width_non_joiner_is_kept():
-    out = clean([item("وہ آئیں‌گے", "They will come.")])
-    assert len(out) == 1 and "‌" in out[0].urdu
+    out = clean([item("وہ آئیں\u200cگے", "They will come.")])
+    assert len(out) == 1 and "\u200c" in out[0].urdu
 
 
 def test_latin_words_make_a_candidate_code_mixed():

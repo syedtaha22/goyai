@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from app.config import Settings
 from app.fallback import ExampleBank
 from app.main import create_app
+from app.textutil import URDU_FULL_STOP
 from app.tiles import TileBank
 from tests.fakes import FakeLLM
 
@@ -28,7 +29,7 @@ def test_suggest_matches_curated_example():
     assert body["source"] == "fallback"
     assert body["model"] is None
     assert body["candidates"][0] == {
-        "urdu": "مجھے پانی چاہیے۔",
+        "urdu": "مجھے پانی چاہیے" + URDU_FULL_STOP,
         "english": "I want water.",
         "style": "urdu",
     }
@@ -48,7 +49,7 @@ def test_suggest_returns_n_candidates_and_code_mixed_style():
 
 
 def test_exclude_is_honored():
-    shown = "مجھے ڈونٹ چاہیے۔"
+    shown = "مجھے ڈونٹ چاہیے" + URDU_FULL_STOP
     with make_http() as http:
         cands = http.post(
             "/v1/suggest",
@@ -76,7 +77,7 @@ def test_unmatched_selection_reads_out_tile_labels():
             "/v1/suggest", json={"tiles": ["food_cake", "place_park"]}
         ).json()["candidates"]
     assert len(cands) == 1
-    assert cands[0]["urdu"] == "کیک پارک۔"
+    assert cands[0]["urdu"] == "کیک پارک" + URDU_FULL_STOP
     assert cands[0]["english"] == "cake park."
 
 
@@ -93,7 +94,7 @@ def test_personalization_label_used_in_readout():
                 },
             },
         ).json()["candidates"]
-    assert cands[0]["urdu"] == "گڑیا۔"
+    assert cands[0]["urdu"] == "گڑیا" + URDU_FULL_STOP
 
 
 def test_unknown_tile_is_422():

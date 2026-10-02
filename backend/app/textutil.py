@@ -1,11 +1,11 @@
 import unicodedata
 
-URDU_FULL_STOP = "۔"
-URDU_QUESTION_MARK = "؟"
-URDU_COMMA = "،"
+URDU_FULL_STOP = "\u06d4"
+URDU_QUESTION_MARK = "\u061f"
+URDU_COMMA = "\u060c"
 
 # The zero-width non-joiner is part of Urdu orthography, so it is the one format character allowed.
-ZWNJ = "‌"
+ZWNJ = "\u200c"
 
 _ARABIC_BLOCKS = ((0x0600, 0x06FF), (0x0750, 0x077F))
 

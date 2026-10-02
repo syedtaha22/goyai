@@ -1,0 +1,125 @@
+{"id": "u001", "split": "urdu", "tiles": ["person_i_me", "feeling_thirsty"], "gender": null, "references": ["مجھے پیاس لگی ہے"], "english": "I am thirsty."}
+{"id": "u002", "split": "urdu", "tiles": ["person_i_me", "feeling_sleepy"], "gender": null, "references": ["مجھے نیند آ رہی ہے"], "english": "I am sleepy."}
+{"id": "u003", "split": "urdu", "tiles": ["person_i_me", "feeling_cold"], "gender": null, "references": ["مجھے سردی لگ رہی ہے", "مجھے ٹھنڈ لگ رہی ہے"], "english": "I feel cold."}
+{"id": "u004", "split": "urdu", "tiles": ["person_i_me", "feeling_hot"], "gender": null, "references": ["مجھے گرمی لگ رہی ہے"], "english": "I feel hot."}
+{"id": "u005", "split": "urdu", "tiles": ["person_i_me", "feeling_scared"], "gender": null, "references": ["مجھے ڈر لگ رہا ہے"], "english": "I am scared."}
+{"id": "u006", "split": "urdu", "tiles": ["person_i_me", "feeling_sad"], "gender": null, "references": ["میں اداس ہوں"], "english": "I am sad."}
+{"id": "u007", "split": "urdu", "tiles": ["person_i_me", "feeling_happy"], "gender": null, "references": ["میں خوش ہوں"], "english": "I am happy."}
+{"id": "u008", "split": "urdu", "tiles": ["person_i_me", "feeling_angry"], "gender": null, "references": ["مجھے غصہ آ رہا ہے"], "english": "I am angry."}
+{"id": "u009", "split": "urdu", "tiles": ["person_i_me", "feeling_sick"], "gender": null, "references": ["میں بیمار ہوں", "میری طبیعت خراب ہے"], "english": "I am sick."}
+{"id": "u010", "split": "urdu", "tiles": ["person_i_me", "feeling_nauseous"], "gender": null, "references": ["مجھے متلی محسوس ہو رہی ہے", "مجھے متلی ہو رہی ہے"], "english": "I feel nauseous."}
+{"id": "u011", "split": "urdu", "tiles": ["person_i_me", "feeling_worried"], "gender": null, "references": ["مجھے پریشانی ہو رہی ہے", "میں پریشان ہوں"], "english": "I am worried."}
+{"id": "u012", "split": "urdu", "tiles": ["person_i_me", "feeling_confused"], "gender": null, "references": ["مجھے سمجھ نہیں آ رہا"], "english": "I am confused."}
+{"id": "u013", "split": "urdu", "tiles": ["person_i_me", "feeling_uncomfortable"], "gender": null, "references": ["مجھے بے چینی ہو رہی ہے", "مجھے آرام نہیں آ رہا"], "english": "I am uncomfortable."}
+{"id": "u014", "split": "urdu", "tiles": ["person_i_me", "feeling_love", "person_mom"], "gender": null, "references": ["مجھے امی سے محبت ہے", "مجھے امی سے پیار ہے"], "english": "I love Mom."}
+{"id": "u015", "split": "urdu", "tiles": ["person_i_me", "feeling_love", "person_dad"], "gender": null, "references": ["مجھے ابو سے محبت ہے", "مجھے ابو سے پیار ہے"], "english": "I love Dad."}
+{"id": "u016", "split": "urdu", "tiles": ["person_i_me", "feeling_love", "person_grandmother"], "gender": null, "references": ["مجھے دادی سے محبت ہے", "مجھے دادی سے پیار ہے"], "english": "I love Grandmother."}
+{"id": "u017", "split": "urdu", "tiles": ["person_i_me", "feeling_need", "social_help"], "gender": null, "references": ["مجھے مدد چاہیے", "مجھے مدد کی ضرورت ہے"], "english": "I need help."}
+{"id": "u018", "split": "urdu", "tiles": ["person_i_me", "action_want", "feeling_more"], "gender": null, "references": ["مجھے اور چاہیے"], "english": "I want more."}
+{"id": "u019", "split": "urdu", "tiles": ["person_i_me", "action_want", "food_tea"], "gender": null, "references": ["مجھے چائے چاہیے"], "english": "I want tea."}
+{"id": "u020", "split": "urdu", "tiles": ["person_i_me", "action_want", "food_milk"], "gender": null, "references": ["مجھے دودھ چاہیے"], "english": "I want milk."}
+{"id": "u021", "split": "urdu", "tiles": ["person_i_me", "action_want", "food_roti"], "gender": null, "references": ["مجھے روٹی چاہیے"], "english": "I want roti."}
+{"id": "u022", "split": "urdu", "tiles": ["person_i_me", "action_want", "food_rice"], "gender": null, "references": ["مجھے چاول چاہیے"], "english": "I want rice."}
+{"id": "u023", "split": "urdu", "tiles": ["person_i_me", "action_want", "food_dal"], "gender": null, "references": ["مجھے دال چاہیے"], "english": "I want dal."}
+{"id": "u024", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_eat", "food_chicken"], "gender": null, "references": ["مجھے مرغی کھانی ہے", "میں مرغی کھانا چاہتا ہوں"], "english": "I want to eat chicken."}
+{"id": "u025", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_eat", "food_banana"], "gender": null, "references": ["مجھے کیلا کھانا ہے"], "english": "I want to eat a banana."}
+{"id": "u026", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_drink", "food_milk"], "gender": null, "references": ["مجھے دودھ پینا ہے"], "english": "I want to drink milk."}
+{"id": "u027", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_eat", "food_fruit"], "gender": null, "references": ["مجھے پھل کھانا ہے"], "english": "I want to eat fruit."}
+{"id": "u028", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_eat", "food_paratha"], "gender": null, "references": ["مجھے پراٹھا کھانا ہے"], "english": "I want to eat paratha."}
+{"id": "u029", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_eat", "food_egg"], "gender": null, "references": ["مجھے انڈا کھانا ہے"], "english": "I want to eat an egg."}
+{"id": "u030", "split": "urdu", "tiles": ["person_i_me", "action_like", "food_apple"], "gender": null, "references": ["مجھے سیب پسند ہے"], "english": "I like apples."}
+{"id": "u031", "split": "urdu", "tiles": ["person_i_me", "action_do_not_like", "food_vegetables"], "gender": null, "references": ["مجھے سبزی پسند نہیں ہے"], "english": "I do not like vegetables."}
+{"id": "u032", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_go", "place_mosque"], "gender": null, "references": ["مجھے مسجد جانا ہے"], "english": "I want to go to the mosque."}
+{"id": "u033", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_go", "place_market"], "gender": null, "references": ["مجھے بازار جانا ہے"], "english": "I want to go to the market."}
+{"id": "u034", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_go", "place_outside"], "gender": null, "references": ["مجھے باہر جانا ہے"], "english": "I want to go outside."}
+{"id": "u035", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_play", "place_outside"], "gender": null, "references": ["مجھے باہر کھیلنا ہے"], "english": "I want to play outside."}
+{"id": "u036", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_go", "place_garden"], "gender": null, "references": ["مجھے باغ جانا ہے", "مجھے باغ میں جانا ہے"], "english": "I want to go to the garden."}
+{"id": "u037", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_go", "place_kitchen"], "gender": null, "references": ["مجھے باورچی خانے میں جانا ہے", "مجھے باورچی خانے جانا ہے"], "english": "I want to go to the kitchen."}
+{"id": "u038", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_go", "place_bedroom"], "gender": null, "references": ["مجھے کمرے میں جانا ہے", "مجھے سونے کے کمرے میں جانا ہے"], "english": "I want to go to the bedroom."}
+{"id": "u039", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_sleep", "place_bed"], "gender": null, "references": ["مجھے بستر پر سونا ہے", "مجھے بستر میں سونا ہے"], "english": "I want to sleep in bed."}
+{"id": "u040", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_sit", "place_chair"], "gender": null, "references": ["مجھے کرسی پر بیٹھنا ہے"], "english": "I want to sit on the chair."}
+{"id": "u041", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_open", "food_bottle"], "gender": null, "references": ["مجھے بوتل کھولنی ہے"], "english": "I want to open the bottle."}
+{"id": "u042", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_wash", "body_hand"], "gender": null, "references": ["مجھے ہاتھ دھونے ہیں"], "english": "I want to wash my hands."}
+{"id": "u043", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_read"], "gender": null, "references": ["مجھے پڑھنا ہے"], "english": "I want to read."}
+{"id": "u044", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_write"], "gender": null, "references": ["مجھے لکھنا ہے"], "english": "I want to write."}
+{"id": "u045", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_tooth"], "gender": null, "references": ["میرے دانت میں درد ہے"], "english": "My tooth hurts."}
+{"id": "u046", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_stomach"], "gender": null, "references": ["میرے پیٹ میں درد ہے"], "english": "My stomach hurts."}
+{"id": "u047", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_leg"], "gender": null, "references": ["میری ٹانگ میں درد ہے"], "english": "My leg hurts."}
+{"id": "u048", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_hand"], "gender": null, "references": ["میرے ہاتھ میں درد ہے"], "english": "My hand hurts."}
+{"id": "u049", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_back"], "gender": null, "references": ["میری کمر میں درد ہے"], "english": "My back hurts."}
+{"id": "u050", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_ear"], "gender": null, "references": ["میرے کان میں درد ہے"], "english": "My ear hurts."}
+{"id": "u051", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_throat"], "gender": null, "references": ["میرے گلے میں درد ہے"], "english": "My throat hurts."}
+{"id": "u052", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_eye"], "gender": null, "references": ["میری آنکھ میں درد ہے"], "english": "My eye hurts."}
+{"id": "u053", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_chest"], "gender": null, "references": ["میرے سینے میں درد ہے"], "english": "My chest hurts."}
+{"id": "u054", "split": "urdu", "tiles": ["person_i_me", "feeling_sick", "person_doctor"], "gender": null, "references": ["مجھے ڈاکٹر کے پاس جانا ہے", "مجھے ڈاکٹر کو دکھانا ہے"], "english": "I need to see the doctor."}
+{"id": "u055", "split": "urdu", "tiles": ["person_dad", "social_where"], "gender": null, "references": ["ابو کہاں ہیں"], "english": "Where is Dad?"}
+{"id": "u056", "split": "urdu", "tiles": ["person_teacher", "social_where"], "gender": null, "references": ["ٹیچر کہاں ہیں"], "english": "Where is the teacher?"}
+{"id": "u057", "split": "urdu", "tiles": ["person_brother", "social_where"], "gender": null, "references": ["بھائی کہاں ہے", "بھائی کہاں ہیں"], "english": "Where is my brother?"}
+{"id": "u058", "split": "urdu", "tiles": ["person_sister", "social_where"], "gender": null, "references": ["بہن کہاں ہے", "بہن کہاں ہیں"], "english": "Where is my sister?"}
+{"id": "u059", "split": "urdu", "tiles": ["social_who", "action_come"], "gender": null, "references": ["کون آیا ہے", "کون آ رہا ہے"], "english": "Who is coming?"}
+{"id": "u060", "split": "urdu", "tiles": ["person_mom", "action_come"], "gender": null, "references": ["امی یہاں آئیں", "امی کو بلائیں"], "english": "Mom, come here."}
+{"id": "u061", "split": "urdu", "tiles": ["person_you", "action_help"], "gender": null, "references": ["آپ میری مدد کریں"], "english": "You help me."}
+{"id": "u062", "split": "urdu", "tiles": ["person_i_me", "person_friend", "action_play"], "gender": null, "references": ["مجھے دوست کے ساتھ کھیلنا ہے", "میں دوست کے ساتھ کھیلنا چاہتا ہوں"], "english": "I want to play with my friend."}
+{"id": "u063", "split": "urdu", "tiles": ["social_thank_you"], "gender": null, "references": ["شکریہ"], "english": "Thank you."}
+{"id": "u064", "split": "urdu", "tiles": ["social_sorry"], "gender": null, "references": ["معاف کیجیے", "مجھے معاف کر دیں", "معذرت"], "english": "Sorry."}
+{"id": "u065", "split": "urdu", "tiles": ["social_hello"], "gender": null, "references": ["السلام علیکم", "سلام"], "english": "Hello."}
+{"id": "u066", "split": "urdu", "tiles": ["social_goodbye"], "gender": null, "references": ["خدا حافظ", "اللہ حافظ"], "english": "Goodbye."}
+{"id": "u067", "split": "urdu", "tiles": ["social_yes"], "gender": null, "references": ["ہاں", "جی ہاں"], "english": "Yes."}
+{"id": "u068", "split": "urdu", "tiles": ["social_no"], "gender": null, "references": ["نہیں", "جی نہیں"], "english": "No."}
+{"id": "u069", "split": "urdu", "tiles": ["social_i_do_not_know"], "gender": null, "references": ["مجھے نہیں معلوم", "مجھے نہیں پتا"], "english": "I do not know."}
+{"id": "u070", "split": "urdu", "tiles": ["social_my_turn"], "gender": null, "references": ["میری باری ہے", "اب میری باری ہے"], "english": "It is my turn."}
+{"id": "u071", "split": "urdu", "tiles": ["social_your_turn"], "gender": null, "references": ["آپ کی باری ہے", "اب آپ کی باری ہے"], "english": "It is your turn."}
+{"id": "u072", "split": "urdu", "tiles": ["social_stop"], "gender": null, "references": ["رک جائیں", "بس کریں", "رکیں"], "english": "Stop."}
+{"id": "u073", "split": "urdu", "tiles": ["social_quiet"], "gender": null, "references": ["خاموش رہیں", "چپ ہو جائیں"], "english": "Be quiet."}
+{"id": "u074", "split": "urdu", "tiles": ["social_again"], "gender": null, "references": ["دوبارہ کریں", "ایک بار پھر کریں"], "english": "Do it again."}
+{"id": "u075", "split": "urdu", "tiles": ["social_mine"], "gender": null, "references": ["یہ میرا ہے", "میرا ہے"], "english": "This is mine."}
+{"id": "u076", "split": "urdu", "tiles": ["social_okay"], "gender": null, "references": ["ٹھیک ہے"], "english": "Okay."}
+{"id": "u077", "split": "urdu", "tiles": ["social_wait"], "gender": null, "references": ["ٹھہریں", "انتظار کریں", "ذرا رکیں"], "english": "Wait."}
+{"id": "u078", "split": "urdu", "tiles": ["person_mom", "action_give", "food_water"], "gender": null, "references": ["امی مجھے پانی دیں", "امی پانی دیں"], "english": "Mom, give me water."}
+{"id": "u079", "split": "urdu", "tiles": ["person_dad", "action_bring", "food_milk"], "gender": null, "references": ["ابو دودھ لائیں", "ابو مجھے دودھ لا دیں"], "english": "Dad, bring milk."}
+{"id": "u080", "split": "urdu", "tiles": ["person_teacher", "action_help", "person_i_me"], "gender": null, "references": ["ٹیچر میری مدد کریں"], "english": "Teacher, help me."}
+{"id": "u081", "split": "urdu", "tiles": ["person_i_me", "feeling_tired"], "gender": "female", "references": ["میں تھک گئی ہوں", "مجھے تھکن ہو رہی ہے"], "english": "I am tired."}
+{"id": "u082", "split": "urdu", "tiles": ["person_i_me", "feeling_tired"], "gender": "male", "references": ["میں تھک گیا ہوں", "مجھے تھکن ہو رہی ہے"], "english": "I am tired."}
+{"id": "u083", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_eat", "food_rice"], "gender": "female", "references": ["میں چاول کھانا چاہتی ہوں", "مجھے چاول کھانے ہیں"], "english": "I want to eat rice."}
+{"id": "u084", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_eat", "food_rice"], "gender": "male", "references": ["میں چاول کھانا چاہتا ہوں", "مجھے چاول کھانے ہیں"], "english": "I want to eat rice."}
+{"id": "u085", "split": "urdu", "tiles": ["person_i_me", "feeling_bored"], "gender": "female", "references": ["میں بور ہو رہی ہوں", "مجھے بوریت ہو رہی ہے"], "english": "I am bored."}
+{"id": "u086", "split": "urdu", "tiles": ["person_i_me", "feeling_bored"], "gender": "male", "references": ["میں بور ہو رہا ہوں", "مجھے بوریت ہو رہی ہے"], "english": "I am bored."}
+{"id": "u087", "split": "urdu", "tiles": ["person_i_me", "feeling_scared"], "gender": "female", "references": ["میں ڈر گئی ہوں", "مجھے ڈر لگ رہا ہے"], "english": "I am scared."}
+{"id": "u088", "split": "urdu", "tiles": ["person_i_me", "feeling_scared"], "gender": "male", "references": ["میں ڈر گیا ہوں", "مجھے ڈر لگ رہا ہے"], "english": "I am scared."}
+{"id": "u089", "split": "urdu", "tiles": ["person_i_me", "action_want", "action_go", "place_car"], "gender": null, "references": ["مجھے گاڑی میں جانا ہے"], "english": "I want to go by car."}
+{"id": "u090", "split": "urdu", "tiles": ["person_i_me", "feeling_okay"], "gender": null, "references": ["میں ٹھیک ہوں"], "english": "I am okay."}
+{"id": "u091", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_neck"], "gender": null, "references": ["میری گردن میں درد ہے"], "english": "My neck hurts."}
+{"id": "u092", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_knee"], "gender": null, "references": ["میرے گھٹنے میں درد ہے"], "english": "My knee hurts."}
+{"id": "u093", "split": "urdu", "tiles": ["person_i_me", "feeling_pain", "body_foot"], "gender": null, "references": ["میرے پاؤں میں درد ہے"], "english": "My foot hurts."}
+{"id": "c001", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_bathroom"], "gender": null, "references": ["مجھے washroom جانا ہے", "مجھے واش روم جانا ہے"], "english": "I need to go to the washroom."}
+{"id": "c002", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_school"], "gender": null, "references": ["مجھے school جانا ہے", "مجھے اسکول جانا ہے"], "english": "I want to go to school."}
+{"id": "c003", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_hospital"], "gender": null, "references": ["مجھے hospital جانا ہے", "مجھے ہسپتال جانا ہے"], "english": "I want to go to the hospital."}
+{"id": "c004", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_park"], "gender": null, "references": ["مجھے park جانا ہے", "مجھے پارک جانا ہے"], "english": "I want to go to the park."}
+{"id": "c005", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_class"], "gender": null, "references": ["مجھے class میں جانا ہے", "مجھے class جانا ہے", "مجھے کلاس میں جانا ہے"], "english": "I want to go to class."}
+{"id": "c006", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_clinic"], "gender": null, "references": ["مجھے clinic جانا ہے", "مجھے کلینک جانا ہے"], "english": "I want to go to the clinic."}
+{"id": "c007", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_bus"], "gender": null, "references": ["مجھے bus میں جانا ہے", "مجھے bus سے جانا ہے", "مجھے بس میں جانا ہے"], "english": "I want to go by bus."}
+{"id": "c009", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_burger"], "gender": null, "references": ["مجھے burger چاہیے", "مجھے برگر چاہیے"], "english": "I want a burger."}
+{"id": "c010", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_chips"], "gender": null, "references": ["مجھے chips چاہئیں", "مجھے چپس چاہئیں"], "english": "I want chips."}
+{"id": "c011", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_juice"], "gender": null, "references": ["مجھے juice چاہیے", "مجھے جوس چاہیے"], "english": "I want juice."}
+{"id": "c012", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_cake"], "gender": null, "references": ["مجھے cake چاہیے", "مجھے کیک چاہیے"], "english": "I want cake."}
+{"id": "c013", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_chocolate"], "gender": null, "references": ["مجھے chocolate چاہیے", "مجھے چاکلیٹ چاہیے"], "english": "I want chocolate."}
+{"id": "c014", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_ice_cream"], "gender": null, "references": ["مجھے ice cream چاہیے", "مجھے آئس کریم چاہیے"], "english": "I want ice cream."}
+{"id": "c015", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_sandwich"], "gender": null, "references": ["مجھے sandwich چاہیے", "مجھے سینڈوچ چاہیے"], "english": "I want a sandwich."}
+{"id": "c016", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_biscuit"], "gender": null, "references": ["مجھے biscuit چاہیے", "مجھے بسکٹ چاہیے"], "english": "I want a biscuit."}
+{"id": "c017", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_cereal"], "gender": null, "references": ["مجھے cereal چاہیے", "مجھے سیریل چاہیے"], "english": "I want cereal."}
+{"id": "c018", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_fries"], "gender": null, "references": ["مجھے fries چاہئیں", "مجھے فرائز چاہئیں"], "english": "I want fries."}
+{"id": "c019", "split": "code_mixed", "tiles": ["social_please", "person_doctor"], "gender": null, "references": ["please doctor کو بلائیں", "پلیز ڈاکٹر کو بلائیں"], "english": "Please call the doctor."}
+{"id": "c020", "split": "code_mixed", "tiles": ["social_please", "social_help"], "gender": null, "references": ["please میری مدد کریں", "پلیز میری مدد کریں"], "english": "Please help me."}
+{"id": "c021", "split": "code_mixed", "tiles": ["social_please", "social_wait"], "gender": null, "references": ["please ٹھہریں", "پلیز ٹھہریں", "please wait کریں"], "english": "Please wait."}
+{"id": "c022", "split": "code_mixed", "tiles": ["social_please", "action_give", "food_water"], "gender": null, "references": ["please پانی دیں", "پلیز پانی دیں", "please مجھے پانی دیں"], "english": "Please give me water."}
+{"id": "c023", "split": "code_mixed", "tiles": ["social_please", "feeling_more", "food_juice"], "gender": null, "references": ["please اور juice دیں", "پلیز اور جوس دیں"], "english": "Please give me more juice."}
+{"id": "c024", "split": "code_mixed", "tiles": ["social_thank_you", "person_mom"], "gender": null, "references": ["thank you امی", "شکریہ امی", "تھینک یو امی"], "english": "Thank you, Mom."}
+{"id": "c025", "split": "code_mixed", "tiles": ["social_sorry", "person_mom"], "gender": null, "references": ["sorry امی", "امی sorry", "سوری امی", "امی سوری"], "english": "Sorry, Mom."}
+{"id": "c026", "split": "code_mixed", "tiles": ["social_sorry", "person_teacher"], "gender": null, "references": ["sorry ٹیچر", "ٹیچر sorry", "سوری ٹیچر"], "english": "Sorry, teacher."}
+{"id": "c027", "split": "code_mixed", "tiles": ["social_hello", "person_teacher"], "gender": null, "references": ["hello ٹیچر", "ہیلو ٹیچر", "سلام ٹیچر", "السلام علیکم ٹیچر"], "english": "Hello, teacher."}
+{"id": "c028", "split": "code_mixed", "tiles": ["social_thank_you", "person_doctor"], "gender": null, "references": ["thank you ڈاکٹر", "شکریہ ڈاکٹر"], "english": "Thank you, doctor."}
+{"id": "c031", "split": "code_mixed", "tiles": ["person_i_me", "feeling_excited"], "gender": null, "references": ["میں excited ہوں", "میں بہت excited ہوں"], "english": "I am excited."}
+{"id": "c033", "split": "code_mixed", "tiles": ["person_i_me", "feeling_finished"], "gender": null, "references": ["میں نے finish کر لیا ہے", "میرا finish ہو گیا ہے", "میں نے ختم کر لیا ہے"], "english": "I am finished."}
+{"id": "c037", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "action_go", "place_home", "place_bus"], "gender": null, "references": ["مجھے bus سے گھر جانا ہے", "مجھے بس سے گھر جانا ہے"], "english": "I want to go home by bus."}
+{"id": "c038", "split": "code_mixed", "tiles": ["person_i_me", "action_want", "food_cup", "food_tea"], "gender": null, "references": ["مجھے ایک cup چائے چاہیے", "مجھے ایک کپ چائے چاہیے"], "english": "I want a cup of tea."}
+{"id": "c040", "split": "code_mixed", "tiles": ["person_you", "action_help", "social_please"], "gender": null, "references": ["please آپ میری مدد کریں", "پلیز آپ میری مدد کریں", "please آپ میری help کریں"], "english": "Please help me."}
