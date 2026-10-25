@@ -34,7 +34,6 @@ export default function Home() {
   const [selectedTiles, setSelectedTiles] = useState<Tile[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [layout, setLayout] = useState<"phone" | "portrait" | "landscape">("landscape");
-  const [soundEnabled, setSoundEnabled] = useState(true);
 
   useEffect(() => {
     const phoneQuery = window.matchMedia("(max-width: 767px)");
@@ -92,15 +91,6 @@ export default function Home() {
                 <h2 className="text-lg font-bold leading-tight">My Talker</h2>
                 <p className="text-sm font-semibold leading-tight text-[#9B7A6D]" dir="rtl" lang="ur">میری آواز</p>
               </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button type="button" aria-label="Settings (coming soon)" title="Settings coming soon"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FFF0E5] text-sm">⚙</button>
-              <button type="button" aria-label={soundEnabled ? "Mute sound" : "Enable sound"}
-                onClick={() => setSoundEnabled((value) => !value)}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FFF0E5] text-sm">
-                {soundEnabled ? "🔊" : "🔇"}
-              </button>
             </div>
           </div>
           <div className="shrink-0 border-b border-[#EEDFD1] px-3 py-1">

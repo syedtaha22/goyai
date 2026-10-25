@@ -29,7 +29,7 @@ which happens in the background after startup.
 | Endpoint | Purpose |
 |---|---|
 | `GET /healthz` | Model server status |
-| `GET /v1/tiles` | The tile bank (204 tiles) |
+| `GET /v1/tiles` | The tile bank (256 tiles) |
 | `POST /v1/suggest` | Candidate sentences for a tile selection |
 
 ```bash

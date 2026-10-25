@@ -127,5 +127,5 @@ def test_request_limits_are_422():
 def test_tiles_endpoint_lists_bank():
     with make_http() as http:
         tiles = http.get("/v1/tiles").json()
-    assert len(tiles) == 204
+    assert len(tiles) == 256
     assert {"tile_id", "category", "english", "urdu", "arasaac_id"} <= set(tiles[0])

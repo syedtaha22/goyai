@@ -15,9 +15,10 @@ EXPECTED_COUNTS = {
     "place": 24,
     "feeling": 28,
     "body": 20,
-    "food": 34,
+    "food": 56,
     "social": 28,
     "personalization": 12,
+    "personal": 30,
 }
 
 
@@ -26,8 +27,8 @@ def bank() -> TileBank:
     return TileBank.load(Settings().data_dir / "tiles.json")
 
 
-def test_bank_has_204_tiles_with_expected_category_sizes(bank):
-    assert len(bank) == 204
+def test_bank_has_256_tiles_with_expected_category_sizes(bank):
+    assert len(bank) == 256
     assert Counter(t.category for t in bank.tiles) == EXPECTED_COUNTS
 
 

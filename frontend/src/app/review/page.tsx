@@ -1,42 +1,57 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { fetchSuggestions } from "@/services/backend";
 import type { Tile } from "@/types/aac";
 
 type Suggestion = { urdu: string; english: string };
 type Stage = "suggestions" | "edit" | "confirmed";
+type Status = "loading" | "ready" | "error";
+type Origin = { source: "llm" | "fallback"; model: string | null; latencyMs: number };
 
 const KEY = "goyai-selected-tiles";
-const CORAL = "#E76F51";
 
-function generateMockSuggestions(selected: Tile[], round: number): Suggestion[] {
-  const english = selected.map((t) => t.english.trim()).filter(Boolean);
-  const urdu = selected.map((t) => t.urdu.trim()).filter(Boolean);
-  const words = english.join(" ");
-  const urduWords = urdu.join(" ");
-  // These are DEMO sentences, not AI output or a verified translation.
-  const sets: Suggestion[][] = [
-    [
-      { english: words + ".", urdu: urduWords + "۔" },
-      { english: "Please, " + words.toLowerCase() + ".", urdu: "براہ کرم، " + urduWords + "۔" },
-      { english: "I want to say: " + words + ".", urdu: "میں کہنا چاہتا/چاہتی ہوں: " + urduWords + "۔" },
-    ],
-    [
-      { english: "Can you help me? " + words + ".", urdu: "کیا آپ میری مدد کر سکتے ہیں؟ " + urduWords + "۔" },
-      { english: "Please listen: " + words + ".", urdu: "براہ کرم سنیں: " + urduWords + "۔" },
-      { english: "I mean: " + words + ".", urdu: "میرا مطلب ہے: " + urduWords + "۔" },
-    ],
-  ];
-  return sets[round % sets.length];
+function subscribe() {
+  return () => {};
+}
+
+function readSelection(): string | null {
+  return sessionStorage.getItem(KEY) ?? "";
+}
+
+function readSelectionOnServer(): string | null {
+  return null;
+}
+
+function parseTiles(saved: string): Tile[] {
+  try {
+    const parsed: unknown = saved ? JSON.parse(saved) : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((x): x is Tile =>
+      !!x && typeof x === "object" &&
+      typeof x.id === "string" &&
+      typeof x.english === "string" &&
+      typeof x.urdu === "string" &&
+      typeof x.category === "string"
+    );
+  } catch {
+    return [];
+  }
 }
 
 export default function ReviewPage() {
   const router = useRouter();
-  const [selected, setSelected] = useState<Tile[]>([]);
-  const [loaded, setLoaded] = useState(false);
-  const [round, setRound] = useState(0);
+  const saved = useSyncExternalStore(subscribe, readSelection, readSelectionOnServer);
+  const loaded = saved !== null;
+  const selected = useMemo(() => parseTiles(saved ?? ""), [saved]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [status, setStatus] = useState<Status>("loading");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [origin, setOrigin] = useState<Origin | null>(null);
+  const shown = useRef<string[]>([]);
+  const request = useRef<AbortController | null>(null);
   const [choice, setChoice] = useState<number | null>(null);
   const [stage, setStage] = useState<Stage>("suggestions");
   const [draftEnglish, setDraftEnglish] = useState("");
@@ -45,26 +60,40 @@ export default function ReviewPage() {
   const [speechLanguage, setSpeechLanguage] = useState<"ur-PK" | "en-US">("ur-PK");
   const [speechMessage, setSpeechMessage] = useState("");
 
-  useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem(KEY);
-      const parsed: unknown = saved ? JSON.parse(saved) : [];
-      if (Array.isArray(parsed)) {
-        setSelected(parsed.filter((x): x is Tile =>
-          !!x && typeof x === "object" &&
-          typeof x.id === "string" &&
-          typeof x.english === "string" &&
-          typeof x.urdu === "string" &&
-          typeof x.category === "string"
-        ));
-      }
-    } catch {
-      setSelected([]);
-    }
-    setLoaded(true);
-  }, []);
+  const requestSuggestions = useCallback(
+    (mode: "default" | "different", controller: AbortController) => {
+      fetchSuggestions(selected, { mode, exclude: shown.current, signal: controller.signal })
+        .then((result) => {
+          shown.current.push(...result.suggestions.map((item) => item.urdu));
+          setSuggestions(result.suggestions);
+          setOrigin({ source: result.source, model: result.model, latencyMs: result.latencyMs });
+          setStatus("ready");
+        })
+        .catch((error: unknown) => {
+          if (error instanceof DOMException && error.name === "AbortError") return;
+          setErrorMessage(error instanceof Error ? error.message : "Suggestions could not be loaded.");
+          setStatus("error");
+        });
+    },
+    [selected],
+  );
 
-  const suggestions = useMemo(() => generateMockSuggestions(selected, round), [selected, round]);
+  useEffect(() => {
+    if (!loaded || selected.length === 0) return;
+    const controller = new AbortController();
+    request.current = controller;
+    requestSuggestions("default", controller);
+    return () => controller.abort();
+  }, [loaded, selected, requestSuggestions]);
+
+  function reloadSuggestions(mode: "default" | "different") {
+    request.current?.abort();
+    const controller = new AbortController();
+    request.current = controller;
+    setStatus("loading");
+    setChoice(null);
+    requestSuggestions(mode, controller);
+  }
 
   function selectSuggestion(index: number) {
     setChoice(index);
@@ -91,9 +120,14 @@ export default function ReviewPage() {
   }
 
   function tryDifferent() {
-    setRound((r) => r + 1);
-    setChoice(null);
     setStage("suggestions");
+    reloadSuggestions("different");
+  }
+
+  function writeOwn() {
+    setDraftEnglish("");
+    setDraftUrdu("");
+    setStage("edit");
   }
 
   function speak() {
@@ -165,26 +199,40 @@ export default function ReviewPage() {
               <section className="space-y-4 rounded-2xl border-2 border-[#E7D2BE] bg-[#FFFCF8] p-4">
                 <div>
                   <h2 className="text-xl font-bold">Choose a suggestion</h2>
-                  <p className="text-sm text-[#8A6557]">Demo suggestions only — these are not AI-generated or checked translations.</p>
+                  <p role="status" className="text-sm text-[#8A6557]">
+                    {status === "loading" && "Writing suggestions…"}
+                    {status === "error" && errorMessage}
+                    {status === "ready" && origin?.source === "llm" && `Written by ${origin.model} in ${origin.latencyMs} ms`}
+                    {status === "ready" && origin?.source === "fallback" && "The language model is not available. These are example sentences for the selected pictograms."}
+                  </p>
                 </div>
                 <div className="grid gap-3">
-                  {suggestions.map((item, i) => (
-                    <button key={`${round}-${i}`} type="button" onClick={() => selectSuggestion(i)}
+                  {status === "ready" && suggestions.length === 0 && (
+                    <p className="rounded-xl border-2 border-[#E7D2BE] bg-white p-4">No suggestions were returned for these pictograms.</p>
+                  )}
+                  {status === "ready" && suggestions.map((item, i) => (
+                    <button key={item.urdu} type="button" onClick={() => selectSuggestion(i)}
                       aria-pressed={choice === i}
                       className={`min-h-24 rounded-xl border-2 p-4 text-left focus-visible:outline-4 focus-visible:outline-[#3F241C] ${choice === i ? "border-[#E76F51] bg-[#FFF0EB]" : "border-[#E7D2BE] bg-white"}`}>
                       <span className="text-xs font-bold text-[#8A6557]">Option {i + 1}{choice === i ? " ✓ Selected" : ""}</span>
                       <p dir="rtl" lang="ur" className="mt-1 text-right text-xl font-bold leading-relaxed">{item.urdu}</p>
-                      <p className="mt-1 text-base">{item.english}</p>
+                      {item.english && <p className="mt-1 text-base">{item.english}</p>}
                     </button>
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <button type="button" onClick={confirmSuggestion} disabled={choice === null}
+                  <button type="button" onClick={confirmSuggestion} disabled={choice === null || status !== "ready"}
                     className={`${btn} bg-[#E76F51] text-white disabled:opacity-40`}>Confirm ✓</button>
                   <button type="button" onClick={editSuggestion} disabled={choice === null}
                     className={`${btn} border-2 border-[#E7D2BE] bg-white disabled:opacity-40`}>Correct / Edit ✎</button>
-                  <button type="button" onClick={tryDifferent}
-                    className={`${btn} border-2 border-[#E7D2BE] bg-white`}>Try Different ↻</button>
+                  <button type="button" onClick={tryDifferent} disabled={status === "loading"}
+                    className={`${btn} border-2 border-[#E7D2BE] bg-white disabled:opacity-40`}>Try Different ↻</button>
+                  {status === "error" && (
+                    <button type="button" onClick={() => reloadSuggestions("default")}
+                      className={`${btn} border-2 border-[#E7D2BE] bg-white`}>Try again</button>
+                  )}
+                  <button type="button" onClick={writeOwn}
+                    className={`${btn} border-2 border-[#E7D2BE] bg-white`}>Write my own</button>
                   <button type="button" onClick={() => router.push("/")}
                     className={`${btn} border-2 border-[#E7D2BE] bg-white`}>Change pictograms</button>
                 </div>
@@ -194,7 +242,7 @@ export default function ReviewPage() {
             {stage === "edit" && (
               <section className="space-y-4 rounded-2xl border-2 border-[#E7D2BE] bg-white p-4">
                 <h2 className="text-xl font-bold">Correct your sentence</h2>
-                <p className="text-sm text-[#8A6557]">Editing is a demo feature. A caregiver may assist with typing.</p>
+                <p className="text-sm text-[#8A6557]">A caregiver may assist with typing.</p>
                 <label className="block font-semibold">Urdu
                   <textarea dir="rtl" lang="ur" value={draftUrdu} onChange={(e) => setDraftUrdu(e.target.value)}
                     rows={3} className="mt-2 w-full rounded-xl border-2 border-[#E7D2BE] p-3 text-xl" />
@@ -232,7 +280,6 @@ export default function ReviewPage() {
             )}
           </>
         )}
-        <p className="text-center text-xs text-[#8A6557]">GOYAI frontend demo · AI integration coming later</p>
       </div>
     </main>
   );
