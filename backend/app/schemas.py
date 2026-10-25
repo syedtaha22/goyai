@@ -60,10 +60,13 @@ class SuggestRequest(BaseModel):
 class Candidate(BaseModel):
     """
     One suggested sentence.
+
+    Attributes:
+        english: The English translation, or None when the engine does not produce one.
     """
 
     urdu: str
-    english: str
+    english: str | None = None
     style: Style
 
 

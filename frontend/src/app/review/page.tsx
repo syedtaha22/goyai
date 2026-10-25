@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { fetchSuggestions } from "@/services/backend";
 import type { Tile } from "@/types/aac";
 
-type Suggestion = { urdu: string; english: string };
+type Suggestion = { urdu: string; english?: string | null };
 type Stage = "suggestions" | "edit" | "confirmed";
 type Status = "loading" | "ready" | "error";
 type Origin = { source: "llm" | "fallback"; model: string | null; latencyMs: number };
@@ -102,7 +102,7 @@ export default function ReviewPage() {
 
   function editSuggestion() {
     if (choice === null) return;
-    setDraftEnglish(suggestions[choice].english);
+    setDraftEnglish(suggestions[choice].english ?? "");
     setDraftUrdu(suggestions[choice].urdu);
     setStage("edit");
   }
@@ -137,7 +137,7 @@ export default function ReviewPage() {
       setSpeechMessage("Speech is not supported in this browser.");
       return;
     }
-    const text = speechLanguage === "ur-PK" ? sentence.urdu : sentence.english;
+    const text = speechLanguage === "ur-PK" ? sentence.urdu : (sentence.english ?? "");
     if (!text) {
       setSpeechMessage("No text available in this language.");
       return;
@@ -263,7 +263,7 @@ export default function ReviewPage() {
               <section className="space-y-4 rounded-2xl border-2 border-[#E7D2BE] bg-white p-5 text-center">
                 <h2 className="text-xl font-bold">Your confirmed message ✓</h2>
                 <p dir="rtl" lang="ur" className="text-2xl font-bold leading-relaxed">{finalSentence.urdu}</p>
-                <p className="text-lg">{finalSentence.english}</p>
+                {finalSentence.english && <p className="text-lg">{finalSentence.english}</p>}
                 <fieldset className="flex justify-center gap-4">
                   <legend className="mb-2 w-full font-semibold">Speech language</legend>
                   <label className="flex items-center gap-2"><input type="radio" name="speech-lang" checked={speechLanguage === "ur-PK"} onChange={() => setSpeechLanguage("ur-PK")} /> Urdu</label>

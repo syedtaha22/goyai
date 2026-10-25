@@ -25,7 +25,7 @@ const CANDIDATES_PER_REQUEST = 3;
 
 export type Suggestion = {
   urdu: string;
-  english: string;
+  english: string | null;
   style: "urdu" | "code_mixed";
 };
 

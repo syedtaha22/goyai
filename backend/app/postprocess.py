@@ -18,7 +18,7 @@ _LEAK_CHARS = set("()[]{}<>:*#`_|\\")
 _SENTENCE_END = ".!?" + URDU_FULL_STOP + URDU_QUESTION_MARK
 
 
-def _clean_urdu(text: str) -> str | None:
+def clean_urdu(text: str) -> str | None:
     """
     Normalize the Urdu text of one candidate, or return None if it is not a clean sentence.
     """
@@ -84,7 +84,7 @@ def clean_candidates(raw: dict[str, Any], n: int, exclude: list[str]) -> list[Ca
             reject_hidden_characters(english)
         except ValueError:
             continue
-        urdu, english = _clean_urdu(urdu), _clean_english(english)
+        urdu, english = clean_urdu(urdu), _clean_english(english)
         if urdu is None or english is None:
             continue
 

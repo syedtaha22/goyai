@@ -1,7 +1,9 @@
 from typing import Any, Protocol
 
+from app.engine import EngineError
 
-class LLMError(Exception):
+
+class LLMError(EngineError):
     """
     Raised when the model server is unreachable, times out, or returns unusable output.
     """
