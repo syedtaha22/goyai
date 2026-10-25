@@ -1,7 +1,8 @@
 # Goyai backend
 
-FastAPI service that sits between the tile board and a locally hosted language model. The model
-runs in [Ollama](https://ollama.com) on localhost, so message content stays on the machine.
+FastAPI service that turns a tile selection into Urdu sentences. A small transformer runs inside
+the service, on the CPU or the GPU, so message content stays on the machine and no model server is
+needed. A language model served by [Ollama](https://ollama.com) is available as a second engine.
 
 ## Setup
 
@@ -10,8 +11,12 @@ cd backend
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-ollama pull qwen3.5:4b
 ```
+
+The transformer needs two files in [models/transformer/](models/transformer/), which Git ignores:
+`transformer.pt` (the fine-tuned weights as a state dict) and `urdu_bpe.model` (the SentencePiece
+tokenizer). For the Ollama engine, run `ollama pull qwen3.5:4b` and start the service with
+`GOYAI_ENGINE=llm`.
 
 ## Run
 
@@ -20,9 +25,10 @@ uvicorn app.main:app --reload --port 8000
 curl localhost:8000/healthz
 ```
 
-`/healthz` reports `"status": "ok"` when Ollama is reachable and the configured model is pulled,
-and `"degraded"` otherwise. `model_loaded` is `true` once the model has been loaded into memory,
-which happens in the background after startup.
+`/healthz` reports `"status": "ok"` when the engine's model is available (the transformer files
+exist, or Ollama is reachable and the model is pulled) and `"degraded"` otherwise. `model_loaded`
+is `true` once the model has been loaded into memory, which happens in the background after
+startup.
 
 ## API
 
@@ -49,6 +55,7 @@ curl -s localhost:8000/v1/suggest -H 'Content-Type: application/json' \
 Response fields:
 
 - `candidates`: ranked list, each with `urdu`, `english` and `style` (`urdu` or `code_mixed`).
+  `english` is `null` for the transformer engine, which writes Urdu only.
 - `source`: `llm` or `fallback`.
 - `model`: model name when `source` is `llm`, otherwise `null`.
 - `latency_ms`: time taken to produce the candidates.
@@ -56,6 +63,20 @@ Response fields:
 Unknown tile IDs, and invalid request fields, return 422.
 
 ## How suggestions are produced
+
+With the transformer engine (the default):
+
+1. The selected tiles are looked up in the tile bank, and their Urdu labels are joined into the
+   model input.
+2. Beam search decodes the sentences with a key-value cache, so each step processes one new token
+   per beam. The beam width is `n + 1` plus the number of sentences in `exclude`, between 4 and
+   12. On the CPU the weights are 8-bit. Decoded lists are kept for repeated selections.
+3. Candidates are cleaned (sentence-final punctuation, repeats, `exclude`), and a candidate
+   containing Latin letters is marked `code_mixed`.
+4. If the model is not loaded, fails, or returns nothing, the curated example bank answers and
+   `source` is `fallback`.
+
+With the Ollama engine:
 
 1. The selected tiles are looked up in the tile bank.
 2. The model receives a system prompt, the four curated examples that overlap the selection most
@@ -88,6 +109,11 @@ Settings are read from environment variables prefixed with `GOYAI_`, or from a l
 
 | Variable | Default | Meaning |
 |---|---|---|
+| `GOYAI_ENGINE` | `transformer` | `transformer` or `llm` |
+| `GOYAI_DECODER_DIR` | `models/transformer` | Folder with `transformer.pt` and `urdu_bpe.model` |
+| `GOYAI_DECODER_DEVICE` | `auto` | `auto`, `cpu` or `cuda` |
+| `GOYAI_DECODER_THREADS` | `2` | CPU threads of the transformer |
+| `GOYAI_DECODER_QUANTIZE` | `true` | 8-bit weights on the CPU |
 | `GOYAI_MODEL` | `qwen3.5:4b` | Ollama model tag |
 | `GOYAI_OLLAMA_URL` | `http://localhost:11434` | Ollama server |
 | `GOYAI_REQUEST_TIMEOUT` | `20` | Seconds per model request |
