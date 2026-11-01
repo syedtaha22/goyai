@@ -5,9 +5,9 @@ from safetensors.torch import save_file
 
 from app.config import Settings
 from app.decoder import engine as decoder_engine
-from app.decoder.beam import beam_search
 from app.decoder.engine import TOKENIZER, WEIGHTS, TransformerEngine
-from app.decoder.model import Transformer
+from app.decoder.generation import beam_search
+from app.decoder.modeling import Transformer
 from app.engine import EngineError
 from app.schemas import SuggestRequest
 from app.tiles import Tile

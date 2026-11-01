@@ -11,8 +11,8 @@ from huggingface_hub import hf_hub_download
 from safetensors.torch import load_file
 
 from app.config import Settings
-from app.decoder.beam import beam_search
-from app.decoder.model import Transformer
+from app.decoder.generation import beam_search
+from app.decoder.modeling import Transformer
 from app.engine import EngineError
 from app.postprocess import clean_urdu
 from app.schemas import Candidate, SuggestRequest

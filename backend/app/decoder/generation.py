@@ -1,7 +1,10 @@
+# Taken from https://huggingface.co/syedtaha22/urdu-words2sentence-17m/blob/main/generation.py
+# The import of modeling is changed to its path in this package.
+
 import torch
 import torch.nn.functional as F
 
-from app.decoder.model import KVCache, Transformer
+from app.decoder.modeling import KVCache, Transformer
 
 
 @torch.inference_mode()

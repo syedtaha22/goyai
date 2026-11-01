@@ -1,3 +1,5 @@
+# Taken from https://huggingface.co/syedtaha22/urdu-words2sentence-17m/blob/main/modeling.py
+
 import torch
 import torch.nn.functional as F
 from torch import nn
