@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from app.schemas import Label
 
 PERSONALIZATION = "personalization"
+CUSTOMIZABLE_CATEGORIES = {PERSONALIZATION, "personal"}
 
 
 class UnknownTileError(ValueError):
@@ -77,14 +78,14 @@ class TileBank:
 
         Raises:
             UnknownTileError: If any ID is not in the bank, or if a custom label targets a
-                tile outside the personalization category.
+                tile outside the Personal or personalization categories.
         """
         custom_labels = custom_labels or {}
         unknown = [t for t in tile_ids if t not in self._by_id]
         unknown += [
             t
             for t in custom_labels
-            if t not in self._by_id or self._by_id[t].category != PERSONALIZATION
+            if t not in self._by_id or self._by_id[t].category not in CUSTOMIZABLE_CATEGORIES
         ]
         if unknown:
             raise UnknownTileError(sorted(set(unknown)))

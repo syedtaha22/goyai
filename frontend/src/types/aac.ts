@@ -14,4 +14,6 @@ export type Tile = {
   // Optional: only use this if the normal English
   // label does not search ARASAAC properly.
   searchTerm?: string;
+  customLabel?: boolean;
+  originalLabel?: { english: string; urdu: string };
 };
