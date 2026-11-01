@@ -18,7 +18,7 @@ ExcludedSentence = Annotated[str, StringConstraints(max_length=200)]
 
 class Label(BaseModel):
     """
-    A user-supplied display label for a personalization tile.
+    A request-scoped display label for a Personal or personalization tile.
     """
 
     urdu: LabelText
@@ -31,7 +31,7 @@ class Profile(BaseModel):
 
     Attributes:
         gender: Used to choose gendered Urdu verb forms. Left unset when unknown.
-        custom_labels: Labels for personalization tiles, keyed by tile_id.
+        custom_labels: Labels for Personal or personalization tiles, keyed by tile_id.
     """
 
     gender: Gender | None = None

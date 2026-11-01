@@ -65,6 +65,12 @@ export async function fetchSuggestions(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         tiles: tiles.map(backendTileId),
+        profile: {
+          custom_labels: Object.fromEntries(
+            tiles.filter((tile) => tile.category === "personal" && tile.customLabel)
+              .map((tile) => [backendTileId(tile), { urdu: tile.urdu, english: tile.english }]),
+          ),
+        },
         exclude: exclude.slice(-MAX_EXCLUDED),
         n: CANDIDATES_PER_REQUEST,
         mode,
