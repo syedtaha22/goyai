@@ -13,9 +13,9 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-The transformer needs two files in [models/transformer/](models/transformer/), which Git ignores:
-`transformer.pt` (the fine-tuned weights as a state dict) and `urdu_bpe.model` (the SentencePiece
-tokenizer). For the Ollama engine, run `ollama pull qwen3.5:4b` and start the service with
+The transformer downloads from
+[syedtaha22/urdu-words2sentence-17m](https://huggingface.co/syedtaha22/urdu-words2sentence-17m) on
+the first start (about 70 MB) and is cached in `~/.cache/huggingface`. For the Ollama engine, run `ollama pull qwen3.5:4b` and start the service with
 `GOYAI_ENGINE=llm`.
 
 ## Run
@@ -25,8 +25,8 @@ uvicorn app.main:app --reload --port 8000
 curl localhost:8000/healthz
 ```
 
-`/healthz` reports `"status": "ok"` when the engine's model is available (the transformer files
-exist, or Ollama is reachable and the model is pulled) and `"degraded"` otherwise. `model_loaded`
+`/healthz` reports `"status": "ok"` when the engine's model is available (the transformer is
+loaded, or Ollama is reachable and the model is pulled) and `"degraded"` otherwise. `model_loaded`
 is `true` once the model has been loaded into memory, which happens in the background after
 startup.
 
@@ -110,7 +110,7 @@ Settings are read from environment variables prefixed with `GOYAI_`, or from a l
 | Variable | Default | Meaning |
 |---|---|---|
 | `GOYAI_ENGINE` | `transformer` | `transformer` or `llm` |
-| `GOYAI_DECODER_DIR` | `models/transformer` | Folder with `transformer.pt` and `urdu_bpe.model` |
+| `GOYAI_DECODER_REPO` | `syedtaha22/urdu-words2sentence-17m` | Hugging Face repository with `model.safetensors` and `tokenizer.model` |
 | `GOYAI_DECODER_DEVICE` | `auto` | `auto`, `cpu` or `cuda` |
 | `GOYAI_DECODER_THREADS` | `2` | CPU threads of the transformer |
 | `GOYAI_DECODER_QUANTIZE` | `true` | 8-bit weights on the CPU |

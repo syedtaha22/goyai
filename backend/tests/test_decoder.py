@@ -1,10 +1,12 @@
 import pytest
 import sentencepiece as spm
 import torch
+from safetensors.torch import save_file
 
 from app.config import Settings
+from app.decoder import engine as decoder_engine
 from app.decoder.beam import beam_search
-from app.decoder.engine import WEIGHTS, TransformerEngine
+from app.decoder.engine import TOKENIZER, WEIGHTS, TransformerEngine
 from app.decoder.model import Transformer
 from app.engine import EngineError
 from app.schemas import SuggestRequest
@@ -54,13 +56,16 @@ def test_beam_search_returns_ranked_sequences_without_the_end_token():
     assert all(2 not in tokens and len(tokens) <= 12 for tokens in first)
 
 
-def make_files(folder, settings_kwargs=None):
+def make_files(folder):
+    """
+    Write a tokenizer and the weights of a small model to the folder, as the repository holds them.
+    """
     folder.mkdir(parents=True, exist_ok=True)
     corpus = folder / "corpus.txt"
     corpus.write_text("\n".join(CORPUS), encoding="utf-8")
     spm.SentencePieceTrainer.train(
         input=str(corpus),
-        model_prefix=str(folder / "urdu_bpe"),
+        model_prefix=str(folder / TOKENIZER.removesuffix(".model")),
         vocab_size=40,
         model_type="bpe",
         user_defined_symbols=["<sep>"],
@@ -70,7 +75,21 @@ def make_files(folder, settings_kwargs=None):
         character_coverage=1.0,
     )
     model = Transformer(vocab_size=40, d_model=64, n_layers=2, max_len=64)
-    torch.save(model.state_dict(), folder / WEIGHTS)
+    save_file(model.state_dict(), folder / WEIGHTS)
+
+
+def serve_from(monkeypatch, folder, requested=None):
+    """
+    Make the engine take the files made by make_files from the folder instead of downloading them.
+    """
+    make_files(folder)
+
+    def download(repo, name):
+        if requested is not None:
+            requested.append((repo, name))
+        return str(folder / name)
+
+    monkeypatch.setattr(decoder_engine, "hf_hub_download", download)
 
 
 def tile(urdu: str) -> Tile:
@@ -78,14 +97,19 @@ def tile(urdu: str) -> Tile:
 
 
 @pytest.fixture
-def engine(tmp_path):
-    make_files(tmp_path)
-    return TransformerEngine(Settings(decoder_dir=tmp_path, decoder_device="cpu"))
+def engine(tmp_path, monkeypatch):
+    serve_from(monkeypatch, tmp_path)
+    return TransformerEngine(Settings(decoder_repo="owner/name", decoder_device="cpu"))
+
+
+async def test_engine_is_named_after_its_repository(engine):
+    assert engine.model == "owner/name"
 
 
 async def test_engine_loads_and_answers(engine):
-    assert await engine.is_ready()
+    assert not await engine.is_ready()
     await engine.warmup()
+    assert await engine.is_ready()
 
     out = await engine.candidates([tile("پانی"), tile("چاہیے")], SuggestRequest(tiles=["a"]))
 
@@ -117,8 +141,22 @@ async def test_engine_skips_excluded_sentences(engine):
     assert {c.urdu for c in first}.isdisjoint(c.urdu for c in again)
 
 
-async def test_missing_files_are_reported(tmp_path):
-    engine = TransformerEngine(Settings(decoder_dir=tmp_path, decoder_device="cpu"))
+async def test_engine_downloads_the_files_from_the_hub(tmp_path, monkeypatch):
+    requested = []
+    serve_from(monkeypatch, tmp_path, requested)
+    engine = TransformerEngine(Settings(decoder_repo="owner/name", decoder_device="cpu"))
+
+    await engine.warmup()
+
+    assert requested == [("owner/name", WEIGHTS), ("owner/name", TOKENIZER)]
+
+
+async def test_a_failed_download_is_reported(monkeypatch):
+    def download(repo, name):
+        raise OSError("offline")
+
+    monkeypatch.setattr(decoder_engine, "hf_hub_download", download)
+    engine = TransformerEngine(Settings(decoder_repo="owner/name", decoder_device="cpu"))
 
     assert not await engine.is_ready()
     with pytest.raises(EngineError):
