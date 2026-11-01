@@ -18,8 +18,9 @@ class Settings(BaseSettings):
     # Which engine produces the sentences: the in-process transformer or the Ollama model.
     engine: Literal["transformer", "llm"] = "transformer"
 
-    # Folder with the transformer weights (transformer.pt) and tokenizer (urdu_bpe.model).
-    decoder_dir: Path = Path(__file__).resolve().parent.parent / "models" / "transformer"
+    # Hugging Face repository with the transformer (model.safetensors and tokenizer.model). The
+    # files are downloaded on first use and cached.
+    decoder_repo: str = "syedtaha22/urdu-words2sentence-17m"
     # "auto" picks CUDA when it is available and the CPU otherwise.
     decoder_device: str = "auto"
     # CPU threads for the decoder. Left unset, torch uses every core.

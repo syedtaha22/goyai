@@ -7,6 +7,8 @@ from pathlib import Path
 
 import sentencepiece as spm
 import torch
+from huggingface_hub import hf_hub_download
+from safetensors.torch import load_file
 
 from app.config import Settings
 from app.decoder.beam import beam_search
@@ -21,8 +23,8 @@ logger = logging.getLogger("goyai")
 
 SEP = "<sep>"
 TILE_JOIN = " + "
-WEIGHTS = "transformer.pt"
-TOKENIZER = "urdu_bpe.model"
+WEIGHTS = "model.safetensors"
+TOKENIZER = "tokenizer.model"
 
 # Beam width bounds. The width is one more than the number of sentences wanted and skipped.
 MIN_BEAMS = 4
@@ -41,7 +43,7 @@ class TransformerEngine:
 
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
-        self._dir: Path = settings.decoder_dir
+        self._repo = settings.decoder_repo
         self._device = self._pick_device(settings.decoder_device)
         self._model: Transformer | None = None
         self._tokenizer: spm.SentencePieceProcessor | None = None
@@ -57,17 +59,16 @@ class TransformerEngine:
 
     @property
     def model(self) -> str:
-        return f"transformer-{self._device.type}"
+        return self._repo
 
     def _load(self) -> None:
-        weights, tokenizer = self._dir / WEIGHTS, self._dir / TOKENIZER
-        if not weights.exists() or not tokenizer.exists():
-            raise EngineError(f"decoder files not found in {self._dir}")
+        weights = Path(hf_hub_download(self._repo, WEIGHTS))
+        tokenizer = Path(hf_hub_download(self._repo, TOKENIZER))
 
         if self._settings.decoder_threads and self._device.type == "cpu":
             torch.set_num_threads(self._settings.decoder_threads)
 
-        state = torch.load(weights, map_location="cpu", weights_only=True)
+        state = load_file(weights)
         model = Transformer.from_state_dict(state)
         if self._settings.decoder_quantize and self._device.type == "cpu":
             model = self._quantized(model)
@@ -101,7 +102,7 @@ class TransformerEngine:
             raise EngineError(f"decoder failed to load: {exc!r}") from exc
 
     async def is_ready(self) -> bool:
-        return (self._dir / WEIGHTS).exists() and (self._dir / TOKENIZER).exists()
+        return self._model is not None
 
     async def aclose(self) -> None:
         self._executor.shutdown(wait=False, cancel_futures=True)
