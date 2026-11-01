@@ -3,6 +3,7 @@ import pytest
 from app.config import Settings
 from app.fallback import ExampleBank
 from app.llm.base import LLMError
+from app.llm.engine import LLMEngine
 from app.schemas import SuggestRequest
 from app.suggest import Suggester
 from app.textutil import URDU_FULL_STOP
@@ -29,7 +30,7 @@ GOOD = reply(
 async def make(llm: FakeLLM, settings: Settings = SETTINGS, *, loaded: bool = True) -> Suggester:
     tiles = TileBank.load(settings.data_dir / "tiles.json")
     examples = ExampleBank.load(settings.data_dir / "examples.json")
-    suggester = Suggester(llm, tiles, examples, settings)
+    suggester = Suggester(LLMEngine(llm, tiles, examples, settings), tiles, examples)
     if loaded:
         await suggester.warm()
     return suggester
