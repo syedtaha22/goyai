@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchSuggestions } from "@/services/backend";
 import type { Tile } from "@/types/aac";
 
-type Suggestion = { urdu: string; english: string };
+type Suggestion = { urdu: string; english: string | null };
 type Stage = "suggestions" | "edit" | "confirmed";
 type Status = "loading" | "ready" | "error";
 type Origin = { source: "llm" | "fallback"; model: string | null; latencyMs: number };
@@ -71,7 +71,7 @@ export default function SentencePanel({ selected, onChangeWords, onNewMessage }:
 
   function editSuggestion() {
     if (choice === null) return;
-    setDraftEnglish(suggestions[choice].english);
+    setDraftEnglish(suggestions[choice].english ?? "");
     setDraftUrdu(suggestions[choice].urdu);
     setStage("edit");
   }
@@ -84,7 +84,7 @@ export default function SentencePanel({ selected, onChangeWords, onNewMessage }:
 
   function saveCorrection() {
     if (!draftEnglish.trim() && !draftUrdu.trim()) return;
-    setFinalSentence({ english: draftEnglish.trim(), urdu: draftUrdu.trim() });
+    setFinalSentence({ english: draftEnglish.trim() || null, urdu: draftUrdu.trim() });
     setStage("confirmed");
   }
 
@@ -200,11 +200,11 @@ export default function SentencePanel({ selected, onChangeWords, onNewMessage }:
               <section className="space-y-4 rounded-2xl border-2 border-[#E7D2BE] bg-white p-5 text-center">
                 <h2 className="text-xl font-bold">Your confirmed message ✓</h2>
                 <p dir="rtl" lang="ur" className="text-2xl font-bold leading-relaxed">{finalSentence.urdu}</p>
-                <p className="text-lg">{finalSentence.english}</p>
+                {finalSentence.english && <p className="text-lg">{finalSentence.english}</p>}
                 <fieldset className="flex justify-center gap-4">
                   <legend className="mb-2 w-full font-semibold">Speech language</legend>
                   <label className="flex items-center gap-2"><input type="radio" name="speech-lang" checked={speechLanguage === "ur-PK"} onChange={() => setSpeechLanguage("ur-PK")} /> Urdu</label>
-                  <label className="flex items-center gap-2"><input type="radio" name="speech-lang" checked={speechLanguage === "en-US"} onChange={() => setSpeechLanguage("en-US")} /> English</label>
+                  <label className="flex items-center gap-2"><input type="radio" name="speech-lang" checked={speechLanguage === "en-US"} disabled={!finalSentence.english} onChange={() => setSpeechLanguage("en-US")} /> English</label>
                 </fieldset>
                 <div className="flex flex-wrap justify-center gap-3">
                   <button type="button" onClick={speak} className={`${btn} bg-[#E76F51] text-white`}>🔊 Speak</button>
