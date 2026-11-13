@@ -68,3 +68,16 @@ def test_custom_label_replaces_personalization_tile(bank):
 def test_custom_label_on_non_personalization_tile_rejected(bank):
     with pytest.raises(UnknownTileError):
         bank.resolve(["action_eat"], {"action_eat": Label(urdu="x", english="x")})
+
+
+@pytest.mark.parametrize("tile_id", ["personal_name", "personal_custom_1"])
+def test_personal_labels_are_request_scoped(bank, tile_id):
+    original = bank.resolve([tile_id])[0].model_dump()
+    custom = bank.resolve([tile_id], {tile_id: Label(urdu="علی", english="Ali")})
+    assert (custom[0].urdu, custom[0].english) == ("علی", "Ali")
+    assert bank.resolve([tile_id])[0].model_dump() == original
+
+
+def test_person_category_cannot_be_customized(bank):
+    with pytest.raises(UnknownTileError):
+        bank.resolve(["person_i_me"], {"person_i_me": Label(urdu="علی", english="Ali")})
