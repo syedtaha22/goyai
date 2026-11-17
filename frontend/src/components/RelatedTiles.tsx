@@ -27,17 +27,17 @@ export default function RelatedTiles({
 
   return (
     <section
-      className="border-t border-[#EEDFD1] bg-[#FFF9F5] px-3 py-2 md:px-4"
+      className="border-t border-line-soft bg-surface px-3 py-2 md:px-4"
       aria-label="Related pictogram suggestions"
     >
       <div className="flex min-h-[64px] flex-col gap-2 md:flex-row md:items-center md:gap-3">
         <div className="shrink-0 md:w-[145px]">
-          <p className="text-sm font-bold leading-tight text-[#6F4E42]">
+          <p className="text-sm font-bold leading-tight text-ink-soft">
             You may also want:
           </p>
 
           <p
-            className="mt-1 text-sm font-semibold leading-tight text-[#8A6557]"
+            className="mt-1 text-sm font-semibold leading-tight text-ink-soft"
             dir="rtl"
             lang="ur"
           >
@@ -55,7 +55,7 @@ export default function RelatedTiles({
                 type="button"
                 onClick={() => onSelect(tile)}
                 aria-label={`Select ${tile.english}`}
-                className="flex h-[58px] min-w-[130px] shrink-0 items-center gap-2 rounded-xl border-2 border-[#F2C9B5] bg-white px-2 text-left transition hover:border-[#E76F51] hover:bg-[#FFF4EE] focus-visible:outline-2 focus-visible:outline-[#E76F51]"
+                className="flex h-[58px] min-w-[130px] shrink-0 items-center gap-2 rounded-xl border-2 border-accent bg-surface px-2 text-left transition hover:border-accent hover:bg-accent-tint focus-visible:outline-2 focus-visible:outline-accent"
               >
                 <div className="relative h-10 w-10 shrink-0">
                   <Image
@@ -68,12 +68,12 @@ export default function RelatedTiles({
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-bold leading-tight text-[#3F241C]">
+                  <p className="truncate text-sm font-bold leading-tight text-ink">
                     {tile.english}
                   </p>
 
                   <p
-                    className="truncate text-sm font-semibold leading-tight text-[#8A6557]"
+                    className="truncate text-sm font-semibold leading-tight text-ink-soft"
                     dir="rtl"
                     lang="ur"
                   >

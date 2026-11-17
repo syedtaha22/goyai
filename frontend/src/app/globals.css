@@ -1,26 +1,39 @@
 @import "tailwindcss";
 
+/*
+ * Palette built on #e6e9ef (page) and #eff1f5 (raised surfaces).
+ * Contrast ratios on #e6e9ef: ink 6.6, ink-soft 5.1, accent 6.0, danger 6.1, line 3.3.
+ * Text colours stay at 4.5 or more and the colours of borders and focus rings at 3 or more
+ * (WCAG 2.2 criteria 1.4.3 and 1.4.11). Large areas use low colour intensity.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --page: #e6e9ef;
+  --surface: #eff1f5;
+  --ink: #4c4f69;
+  --ink-soft: #5c5f77;
+  --line: #7c7f93;
+  --line-soft: #acb0be;
+  --accent: #385497;
+  --accent-tint: #d3dcf2;
+  --danger: #9c2b41;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-accent: var(--accent);
+  --color-accent-tint: var(--accent-tint);
+  --color-danger: var(--danger);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--page);
+  color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
 }
