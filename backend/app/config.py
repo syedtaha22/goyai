@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -13,6 +14,21 @@ class Settings(BaseSettings):
     """
 
     model_config = SettingsConfigDict(env_prefix="GOYAI_", env_file=".env", extra="ignore")
+
+    # Which engine produces the sentences: the in-process transformer or the Ollama model.
+    engine: Literal["transformer", "llm"] = "transformer"
+
+    # Hugging Face repository with the transformer (model.safetensors and tokenizer.model). The
+    # files are downloaded on first use and cached.
+    decoder_repo: str = "syedtaha22/urdu-words2sentence-17m"
+    # "auto" picks CUDA when it is available and the CPU otherwise.
+    decoder_device: str = "auto"
+    # CPU threads for the decoder. Left unset, torch uses every core.
+    decoder_threads: int | None = 2
+    # Run the CPU decoder with 8-bit weights, which roughly halves its time.
+    decoder_quantize: bool = True
+    decoder_max_new: int = 40
+    decoder_length_alpha: float = 0.7
 
     model: str = "qwen3.5:4b"
     ollama_url: str = "http://localhost:11434"
