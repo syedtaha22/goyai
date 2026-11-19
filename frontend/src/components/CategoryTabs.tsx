@@ -26,21 +26,21 @@ export default function CategoryTabs({
             onClick={() =>
               onCategoryChange(category.id)
             }
-            className={`h-[52px] rounded-xl border-2 px-3 py-0.5 text-center transition ${
+            className={`min-h-[64px] rounded-xl border-2 px-3 py-1 text-center transition ${
               isActive
-                ? "border-gray-800 shadow-sm"
+                ? "border-ink shadow-sm"
                 : "border-transparent"
             }`}
             style={{
               backgroundColor: category.color,
             }}
           >
-            <span className="block text-base font-bold leading-tight text-gray-900">
+            <span className="block text-xl font-bold leading-tight text-ink">
               {category.name}
             </span>
 
             <span
-              className="mt-0.5 block text-base font-semibold leading-tight text-gray-700"
+              className="mt-0.5 block text-xl font-semibold leading-tight text-ink-soft"
               dir="rtl"
               lang="ur"
             >

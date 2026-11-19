@@ -20,7 +20,7 @@ class Settings(BaseSettings):
 
     # Hugging Face repository with the transformer (model.safetensors and tokenizer.model). The
     # files are downloaded on first use and cached.
-    decoder_repo: str = "syedtaha22/urdu-words2sentence-17m"
+    decoder_repo: str = "syedtaha22/urdu-english-words2sentence-19m"
     # "auto" picks CUDA when it is available and the CPU otherwise.
     decoder_device: str = "auto"
     # CPU threads for the decoder. Left unset, torch uses every core.
