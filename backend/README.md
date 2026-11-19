@@ -14,8 +14,8 @@ pip install -e ".[dev]"
 ```
 
 The transformer downloads from
-[syedtaha22/urdu-words2sentence-17m](https://huggingface.co/syedtaha22/urdu-words2sentence-17m) on
-the first start (about 70 MB) and is cached in `~/.cache/huggingface`. For the Ollama engine, run `ollama pull qwen3.5:4b` and start the service with
+[syedtaha22/urdu-english-words2sentence-19m](https://huggingface.co/syedtaha22/urdu-english-words2sentence-19m) on
+the first start (about 75 MB) and is cached in `~/.cache/huggingface`. For the Ollama engine, run `ollama pull qwen3.5:4b` and start the service with
 `GOYAI_ENGINE=llm`.
 
 ## Run
@@ -55,7 +55,7 @@ curl -s localhost:8000/v1/suggest -H 'Content-Type: application/json' \
 Response fields:
 
 - `candidates`: ranked list, each with `urdu`, `english` and `style` (`urdu` or `code_mixed`).
-  `english` is `null` for the transformer engine, which writes Urdu only.
+  `english` is `null` for a candidate without an English sentence. A transformer with English pieces writes one for each of the first four candidates, and a transformer without them writes none.
 - `source`: `llm` or `fallback`.
 - `model`: model name when `source` is `llm`, otherwise `null`.
 - `latency_ms`: time taken to produce the candidates.
@@ -110,7 +110,7 @@ Settings are read from environment variables prefixed with `GOYAI_`, or from a l
 | Variable | Default | Meaning |
 |---|---|---|
 | `GOYAI_ENGINE` | `transformer` | `transformer` or `llm` |
-| `GOYAI_DECODER_REPO` | `syedtaha22/urdu-words2sentence-17m` | Hugging Face repository with `model.safetensors` and `tokenizer.model` |
+| `GOYAI_DECODER_REPO` | `syedtaha22/urdu-english-words2sentence-19m` | Hugging Face repository with `model.safetensors` and `tokenizer.model`, and `english_tokenizer.model` when the model writes English |
 | `GOYAI_DECODER_DEVICE` | `auto` | `auto`, `cpu` or `cuda` |
 | `GOYAI_DECODER_THREADS` | `2` | CPU threads of the transformer |
 | `GOYAI_DECODER_QUANTIZE` | `true` | 8-bit weights on the CPU |

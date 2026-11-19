@@ -7,6 +7,7 @@ from app.config import Settings
 from app.decoder import engine as decoder_engine
 from app.decoder.engine import TOKENIZER, WEIGHTS, TransformerEngine
 from app.decoder.generation import beam_search
+from app.decoder.joint import JointTransformer, write_english
 from app.decoder.modeling import Transformer
 from app.engine import EngineError
 from app.schemas import SuggestRequest
@@ -169,3 +170,57 @@ async def test_overlong_selection_is_rejected(engine):
 
     with pytest.raises(EngineError):
         await engine.candidates([tile(long_label)], SuggestRequest(tiles=["a"]))
+
+
+def make_joint_files(folder):
+    """
+    Write the files of a model with English pieces: two tokenizers and weights with an English head.
+    """
+    make_files(folder)
+    english_corpus = folder / "english.txt"
+    english_corpus.write_text("\n".join(["I want water", "I am hungry", "I want to go home"] * 10))
+    spm.SentencePieceTrainer.train(
+        input=str(english_corpus),
+        model_prefix=str(folder / "english_tokenizer"),
+        vocab_size=30,
+        model_type="bpe",
+        bos_id=2,
+        eos_id=3,
+        unk_id=1,
+        pad_id=0,
+        character_coverage=1.0,
+    )
+    torch.manual_seed(0)
+    model = JointTransformer(vocab_size=70, d_model=64, n_layers=2, max_len=64, english_vocab=30)
+    save_file(model.state_dict(), folder / WEIGHTS)
+
+
+def test_joint_model_has_english_logits_after_the_urdu_ones():
+    model = JointTransformer(vocab_size=70, d_model=64, n_layers=2, max_len=64, english_vocab=30)
+    rebuilt = JointTransformer.from_state_dict(model.state_dict())
+    logits, _ = rebuilt(torch.randint(0, 70, (2, 5)))
+
+    assert rebuilt.urdu_vocab == 40
+    assert logits.shape == (2, 70)
+
+
+def test_english_is_written_from_the_english_pieces_only():
+    model = JointTransformer(vocab_size=70, d_model=64, n_layers=2, max_len=64, english_vocab=30)
+    model.eval()
+
+    written = write_english(model, [1, 5, 6, 42], 3, 12)
+
+    assert len(written) <= 12
+    assert all(40 <= token < 70 for token in written)
+
+
+async def test_a_model_with_english_pieces_answers_in_both_languages(tmp_path, monkeypatch):
+    serve_from(monkeypatch, tmp_path)
+    make_joint_files(tmp_path)
+    engine = TransformerEngine(Settings(decoder_repo="owner/name", decoder_device="cpu"))
+    await engine.warmup()
+
+    out = await engine.candidates([tile("پانی"), tile("چاہیے")], SuggestRequest(tiles=["a"]))
+
+    assert out
+    assert all(c.english is None or isinstance(c.english, str) for c in out)
